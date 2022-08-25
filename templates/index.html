@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet"  href="{% static 'style.css' %}">
+</head>
+<body>
+<!-- NAVBAR -->
+<header class="site-navbar mt-3">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="site-logo col-6"><a href="index.html">Scantist</a></div>
+        <nav class="  nav">
+          <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
+            <li><a href="index.html" class="nav-link active">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li>
+              <a href="contact.html">Contact Us</a>
+            </li>
+            <li>
+                      {% if request.user.is_anonymous %}
+                      <a onclick="show_hide_()" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Sign Up/ Login</a>
+                  {% else %} 
+                    <li>{{request.user.username}}</li> 
+                    <a href="/logout/"><li class="text">Logout</li></a>
+                  </select>
+                  
+                  {% endif %}
+                  </div>
+              </div>
+            </li>
+          </ul>
+        </nav>
+        <!-- <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
+          <div class="ml-auto">
+            {% if request.user.is_anonymous %}
+            <a onclick="show_hide_()" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Sign Up/ Login</a>
+        {% else %} 
+        <li>{{request.user.username}}</li>
+        <button><a href="/logout/">logout</a></button>
+        {% endif %}
+        </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- SIGNUP_FORM -->
+    <div class="wrapper" id="signup_form">
+      <div class="title-text">
+        <div class="title login">Login Form</div>
+        <div class="title signup">Signup Form</div>
+      </div>
+      <div class="form-container">
+        <div class="slide-controls">
+          <input type="radio" name="slide" id="login" checked>
+          <input type="radio" name="slide" id="signup">
+          <label for="login" class="slide login">Login</label>
+          <label for="signup" class="slide signup">Signup</label>
+          <div class="slider-tab"></div>
+        </div>
+        <div class="form-inner">
+          <form action="/loginuser/" method="post" class="login">
+            {% csrf_token %}
+            <div class="field">
+              <input type="text" placeholder="Phone Number" name="username" id="username" required>
+            </div>
+            <div class="field">
+              <input type="password" placeholder="Password" id="password" name ="password" required>
+            </div>
+            <div class="field btn">
+              <div class="btn-layer"></div>
+              <input type="submit" value="Login">
+            </div>
+            <div class="signup-link">Not a member? <a href="">Signup now</a></div>
+          </form>
+          <form action="/register/" method ="post" class="signup">
+            {% csrf_token %}
+            <div class="field">
+              <input type="text" placeholder="Email Address"name="email" id="email" required>
+            </div><div class="field">
+              <input type="tel" placeholder="Phone Number" name="username"  id ="username" required>
+            </div>
+            <div class="field">
+              <input type="password" placeholder="password" name="password" id="password"required>
+            </div>
+            <div class="field">
+              <input type="password" placeholder="Confirm password" name="confirm_password" id="confirm_password" required>
+            </div>
+            <div class="field btn">
+              <div class="btn-layer"></div>
+              <input type="submit" value="Signup">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  <script>
+    const loginText = document.querySelector(".title-text .login");
+      const loginForm = document.querySelector("form.login");
+      const loginBtn = document.querySelector("label.login");
+      const signupBtn = document.querySelector("label.signup");
+      const signupLink = document.querySelector("form .signup-link a");
+      signupBtn.onclick = (()=>{
+        loginForm.style.marginLeft = "-50%";
+        loginText.style.marginLeft = "-50%";
+      });
+      loginBtn.onclick = (()=>{
+        loginForm.style.marginLeft = "0%";
+        loginText.style.marginLeft = "0%";
+      });
+      signupLink.onclick = (()=>{
+        signupBtn.click();
+        return false;
+      });
+    var a;
+    function show_hide_()
+    {
+      if(a==1)
+      {
+        document.getElementById("signup_form").style.display="block";
+        return a=0;
+      }
+      else
+      {
+        document.getElementById("signup_form").style.display="none";
+        return a=1;
+      }
+    }
+  </script>
+    </header>
+    <header class="header">
+        <h3></h3><br><br><br><br>
+        <p>Enter the pincode</p>
+           <div class="search">
+               <input type="search" required placeholder="Search...">
+               <div class="img">
+                 <img src="{% static 'search_.png' %}">
+               </div>
+           </div> 
+    </header>
+    <br>
+    <div class="image">
+        {% for i in venues %}
+            <div class="column1">
+              <div class="img1">
+                  <div class="img2">
+                    <img src="/media/{{i.image}}" alt="">
+                  </div><br>
+                  
+                  <p>{{i.Name}}</p>
+                  <div class="desc"><p class="desc">{{i.desc}}</p></div>
+                  <div class="btm">
+                    <span class="time">Opening Time :</span><span> {{i.open_timing}}</span><br>
+                    <span class="time">Closing Time :</span><span>{{i.close_timing}} </span><br>
+                    <span class="time">Entry Fee : </span><span>Rs {{i.entry_fee}}</span>
+                    
+                </div>
+                <div class="btn1"><button><a href="/Book/{{i.venue_id_code}}"> Book Now</a></button></div>
+                
+              </div>
+            </div>
+        {% endfor %}
+</body>
+</html>

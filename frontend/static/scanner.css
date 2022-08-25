@@ -1,0 +1,71 @@
+body{
+    background-color: rgb(179, 162, 162);
+}
+.row{
+    
+    display: flex;
+    align-self: center;
+    justify-content: center;
+}
+.row #reader{
+    height: 80vh;
+}
+button{
+    background-color: rgb(247, 167, 19);
+    font-weight: 600;
+    color: black;
+    height: 20%;
+    width: 30%;
+    padding: 2%;
+}
+span a{
+    display: none;
+}
+#reader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#reader{
+    background-color: white;
+    opacity: 60%;
+    box-shadow: 2px 2px 5px 2px;
+}
+video{
+    object-fit: cover;
+}
+.dashboard{
+    visibility: hidden;
+    display: none;
+}
+.success ,.wrong{
+    justify-content: center;
+    position: absolute;
+    width:502px;
+    height: 580px;
+    z-index: 1;
+    display: none;
+}
+.success img, .wrong img{
+    position: relative;
+    width:502px;
+    height: 580px;
+}
+.success p, .wrong p {
+    position: relative;
+    bottom: 20%;
+    left:25%;
+    font-size: 35px;
+    color: white;
+}
+.wrong p {
+    color: black;
+    left:30%;
+}
+.scannername{
+    position: absolute;
+    text-align: center;
+    left:42%;
+    z-index: 1;
+}

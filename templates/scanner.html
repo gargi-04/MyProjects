@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scanner</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="{% static 'scanner.css' %}">
+</head>
+
+<body>
+  <script src="{% static 'scanner.min.js' %}"></script>
+  <style>
+    .result {
+      background-color: green;
+      color: #fff;
+      padding: 20px;
+    }
+
+    .row {
+      display: flex;
+    }
+  </style>
+  <div class="row">
+    
+    <div class="success" id="success">
+      <img src="{% static 'Verified Tick.gif' %}" alt="Verified Tick">
+      <p>You can enter Now</p>
+    </div>
+    <div class="wrong" id="wrong">
+      <img src="{% static 'Wrong Tick.gif' %}" alt="VWrong Tick">
+      <p>Invalid Ticket</p>
+    </div>
+    <div class="col">
+      <div class=" col scannername"><h1>Scantist Scanner</h1></div>
+    </div>
+      <div style="width:500px;" id="reader">
+    </div>
+    <div class="col dashboard" style="padding:30px;">
+      <h4>SCAN RESULT</h4>
+      <div id="result">Result Here</div>
+    </div>
+    
+  </div>
+  <script type="text/javascript">
+    function onScanSuccess(qrCodeMessage) {
+      $.ajax
+        ({
+          type: "GET",
+          url: "/verifyTicket/",
+          data: { 'content': JSON.stringify(qrCodeMessage) },
+          dataType: 'json',
+          contentType: "application/json; charset=utf-8",
+          success: function (res) {
+            document.getElementById('result').innerText = res["entry"];
+            if (res["entry"] === 'ok') {
+              document.getElementById('success').style.display = "block";
+              setTimeout(() => {
+                html5QrcodeScanner.render(onScanSuccess, onScanError);
+                document.getElementById('success').style.display = "none";
+              }, 5000)
+            }
+            else {
+              document.getElementById('wrong').style.display = "block";
+              setTimeout(() => {
+                html5QrcodeScanner.render(onScanSuccess, onScanError);
+                document.getElementById('wrong').style.display = "none";
+              }, 5000)
+            }},
+          error: function (res){
+            document.getElementById('wrong').style.display = "block";
+            setTimeout(()=> {
+          html5QrcodeScanner.render(onScanSuccess, onScanError);
+          document.getElementById('wrong').style.display = "none";
+        }, 5000)
+    }})};
+    function onScanError(errorMessage) {
+      //handle scan error
+    }
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader", { fps: 1, qrbox: 250 });
+    html5QrcodeScanner.render(onScanSuccess, onScanError);
+  </script>
+</body>
+
+</html>

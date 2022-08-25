@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Book| {{venue.Name}}</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" href="{% static 'bootstrap.min.css' %}" />
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="{% static 'book.css' %}" />
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+</head>
+
+<body>
+	<div class="book">
+		<div id="booking" class="section">
+			<div class="section-center">
+				<div class="container">
+					<div class="row">
+						<div class="booking-form">
+							<div class="form-header">
+							<b><h2>Book Your Ticket Now</h2></b>
+							</div>
+							<form class = "book_form" method="post" action="/Book/{{venue.venue_id_code}}/">
+								{% csrf_token %}
+								<input type="hidden" value="{{venue.venue_id_code}}", name="Venue_id_code" id="Venue_id_code">
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span class="form-label">First Name</span>
+											<input name="First_name" id ="First_Name"class="form-control" type="text" placeholder="Enter your First name">
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span class="form-label">Last Name</span>
+											<input name="Last_name" id ="Last_Name"class="form-control" type="text" placeholder="Enter your Last name">
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span class="form-label">Email</span>
+											<input name="Email" id="Email" class="form-control" type="email" placeholder="Enter your email">
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span class="form-label">Number of Ticket</span>
+											<input name="Number_of_ticket" id="Number_of_ticket" class ="form-control" type="tel" placeholder="Number of tickets"> 
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<span class="form-label">Phone</span>
+									<input name="phone_number" id="phone_number" class="form-control" type="tel" placeholder="Enter your phone number">
+								</div>
+								<div class="form-group">
+									<span class="form-label">ID type</span>
+									<select name="ID_type" class="form-control" id="ID_type">
+										<option value="Aadhar">Aadhar Card</option>
+										<option value="Voter">Voter Card</option>
+										<option value="PAN">PAN Card</option>
+									</select>   
+								</div>
+								
+								<div class="form-group">
+									<span class="form-label">ID Number</span>
+									<input name="ID_Number" id="ID_Number" class="form-control" type="text" placeholder="Enter your ID Number">
+								</div>
+								<div class="row">
+									<div class="col-sm-5">
+										<div class="form-group">
+											<span class="form-label">Date Of Visit</span>
+											<input  name="Visiting_Date" id="Visiting_Date" class="form-control" type="date" required>
+										</div>
+									</div>
+								</div>
+								<div class="form-btn">
+									<button class="submit-btn">Book Now</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="venue">
+		<span class="name">{{venue.Name}}</span><br>
+		<span class="desc">Description : <br>{{venue.desc}}</span><br>
+		<span class="form1">Pincode : {{venue.pin_code}}</span><br>
+		<span class="form2">Location : {{venue.location}}</span><br>	
+		<span class="form3">Address : {{venue.address}}</span><br>
+		<span class="form4">Opening Time : {{venue.open_timing}}</span><br>
+		<span class="form5">Closing Timing : {{venue.close_timing}}</span><br>
+		<span class="form6">Entry Fee : {{venue.entry_fee}}</span><br>
+	</div>
+	<style>
+		#booking{
+			background-image: url("/media/{{venue.image}}");
+		}
+	</style>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
